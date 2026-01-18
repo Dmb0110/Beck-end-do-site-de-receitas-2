@@ -28,3 +28,5 @@ class Receita(Base):
     # Modo de preparo da receita.
     # Também armazenado como Text para suportar instruções detalhadas.
     modo_de_preparo: Mapped[str] = mapped_column(Text, nullable=False)
+    # Foto da receita armazenada como bytes (pode ser nulo).
+    #foto: Mapped[bytes | None] = mapped_column(nullable=True)

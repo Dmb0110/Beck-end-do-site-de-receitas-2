@@ -1,3 +1,4 @@
+'''
 from sqlalchemy.orm import Session
 from app.models.models_receita import Receita  # seu modelo SQLAlchemy
 from app.schemas.schemas_foto import FotoDelete
@@ -23,3 +24,4 @@ class FotoService:
         receita.foto = None
         self.db.commit()
         return True
+'''
