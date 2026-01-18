@@ -23,7 +23,7 @@ class ReceitaOut(BaseModel):
     nome_da_receita: str
     ingredientes: str
     modo_de_preparo: str
-    foto_url: bytes | None = None
+    foto: bytes | None = None
 
     model_config = ConfigDict(from_attributes=True)
 
