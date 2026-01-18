@@ -3,7 +3,7 @@ from app.routers.router_registro import router as registro
 from app.routers.router_login import router as login
 from app.routers.router_auth_post_receita import router as receita_auth
 from app.routers.router_crud_receita import router as receita
-#from app.routers.router_foto import router as foto
+from app.routers.router_foto import router as foto
 
 # Cria um roteador principal que servirá como ponto central para incluir todos os sub-routers da aplicação.
 api_router = APIRouter()
@@ -30,4 +30,4 @@ api_router.include_router(receita, prefix='/receita', tags=['receita'])
 # Inclui rotas para upload e remoção de fotos associadas às receitas.
 # - prefix: caminho base (/foto)
 # - tags: organiza endpoints de fotos
-#api_router.include_router(foto, prefix='/foto', tags=['foto'])
+api_router.include_router(foto, prefix='/foto', tags=['foto'])

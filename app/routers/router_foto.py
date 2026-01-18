@@ -1,5 +1,5 @@
 
-'''
+
 from fastapi import UploadFile, Depends, APIRouter
 from sqlalchemy.orm import Session
 from app.database.session import get_db
@@ -32,5 +32,5 @@ def deletar_foto(dados: FotoDelete, db: Session = Depends(get_db)):
     if not ok:
         return {"erro": "Receita não encontrada"}
     return {"mensagem": "Foto removida com sucesso"}
-'''
+
     
