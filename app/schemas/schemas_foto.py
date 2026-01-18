@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 # Schema para enviar foto (guardar URL no banco)
 class FotoCreate(BaseModel):
-    foto: bytes
+    foto: str
 
 # Schema para deletar foto (identificar pelo ID da receita ou da foto)
 class FotoDelete(BaseModel):
