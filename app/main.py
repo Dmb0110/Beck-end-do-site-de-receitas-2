@@ -12,10 +12,16 @@ app = FastAPI(
     openapi_url='/openapi.json'
 )
 
+origins = [
+    "http://localhost:63342",
+    "http://localhost:8000",
+    "https://front-do-site-de-receitas-2.vercel.app"
+]
+
 # Middleware para permitir requisições do frontend hospedado na Vercel
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://receitasmasterchef.vercel.app"],  # Substitua pela URL real do frontend
+    allow_origins=origins,  # Substitua pela URL real do frontend
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

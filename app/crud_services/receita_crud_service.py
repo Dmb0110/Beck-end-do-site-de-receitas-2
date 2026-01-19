@@ -26,8 +26,9 @@ class ReceitaService:
         - Consulta todas as instâncias de Receita.
         - Converte cada objeto SQLAlchemy em um schema Pydantic (ReceitaOut).
         """
-        receitas = self.db.query(Receita).all()
-        return [ReceitaOut.from_orm(r) for r in receitas]
+        return self.db.query(Receita).all()
+        #receita = self.db.query(Receita).all()
+        #return [ReceitaOut.from_orm(r) for r in receitas]
         # Alternativa: ReceitaOut.model_validate(c) para validação explícita
 
     def trocar_receita(self, receita_id: int, at: Atualizar) -> ReceitaOut:
