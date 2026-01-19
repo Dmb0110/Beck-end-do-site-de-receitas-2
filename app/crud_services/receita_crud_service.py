@@ -26,10 +26,8 @@ class ReceitaService:
         - Consulta todas as instâncias de Receita.
         - Converte cada objeto SQLAlchemy em um schema Pydantic (ReceitaOut).
         """
-        return self.db.query(Receita).all()
-        #receita = self.db.query(Receita).all()
-        #return [ReceitaOut.from_orm(r) for r in receitas]
-        # Alternativa: ReceitaOut.model_validate(c) para validação explícita
+        receitas = self.db.query(Receita).all()
+        return [ReceitaOut.model_validate(r) for r in receitas]
 
     def trocar_receita(self, receita_id: int, at: Atualizar) -> ReceitaOut:
         """
@@ -79,4 +77,4 @@ class ReceitaService:
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail='Receita não encontrada'
             )
-        return ReceitaOut.from_orm(receita)
+        return ReceitaOut.model_validate(receita)

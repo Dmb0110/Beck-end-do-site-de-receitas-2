@@ -5,12 +5,12 @@ from jose import jwt, JWTError, ExpiredSignatureError
 from passlib.context import CryptContext
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from app.models.models_usuario import Usuario
+from app.core.config import settings
 import requests  # ✅ substitui o language_tool_python
 
 # ======================== Configurações de Autenticação ========================
-# Chave secreta usada para assinar os tokens JWT. Em produção, deve ser obtida via
-# variável de ambiente e nunca hardcoded no código.
-SECRET_KEY = "sua_chave_secreta"
+# Chave secreta usada para assinar os tokens JWT. Obtida via variável de ambiente.
+SECRET_KEY = settings.SECRET_KEY
 ALGORITHM = "HS256"  # Algoritmo de assinatura do JWT
 ACCESS_TOKEN_EXPIRE_MINUTES = 30  # Tempo de expiração do token em minutos
 

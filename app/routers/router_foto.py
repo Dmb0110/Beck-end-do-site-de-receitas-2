@@ -37,7 +37,7 @@ def deletar_foto(dados: FotoDelete, db: Session = Depends(get_db)):
 
 
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, UploadFile, File
 from sqlalchemy.orm import Session
 from fastapi.responses import JSONResponse
 from app.database.session import get_db
@@ -48,9 +48,12 @@ from app.schemas.schemas_foto import FotoCreate, FotoDelete
 router = APIRouter()
 
 @router.post("/enviar/{receita_id}", response_model=ReceitaOut)
-def adicionar_foto(receita_id: int, dados: FotoCreate, db: Session = Depends(get_db)):
+async def adicionar_foto(receita_id: int, foto: UploadFile = File(...), db: Session = Depends(get_db)):
     service = FotoService(db)
-    receita = service.adicionar_foto(receita_id, dados)
+    # Ler o conteúdo do arquivo
+    conteudo_arquivo = await foto.read()
+    # Passar nome do arquivo e conteúdo
+    receita = service.adicionar_foto(receita_id, foto.filename, conteudo_arquivo)
     if not receita:
         return JSONResponse(status_code=404, content={"erro": "Receita não encontrada"})
     return receita

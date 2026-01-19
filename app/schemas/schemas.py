@@ -45,13 +45,6 @@ class ReceitaOut(BaseModel):
 
     model_config = ConfigDict(from_attributes=True)
 
-    @classmethod
-    def model_validate(cls, obj):
-        data = super().model_validate(obj)
-        # Se for string (URL), não faz encode
-        data.foto = obj.foto
-        return data
-
 # Modelo para atualização parcial de receita
 class Atualizar(BaseModel):
     nome_da_receita: Optional[str] = Field(None, min_length=3, max_length=100)

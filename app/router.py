@@ -11,23 +11,23 @@ api_router = APIRouter()
 # Inclui as rotas de registro de usuários.
 # - prefix: define o caminho base da rota (/registro)
 # - tags: organiza a documentação no Swagger, agrupando endpoints relacionados
-api_router.include_router(registro, prefix='/registro', tags=['registro'])
+api_router.include_router(registro, prefix='/1registro', tags=['1registro'])
 
 # Inclui as rotas de login de usuários.
 # - prefix: caminho base (/login)
 # - tags: facilita a visualização no Swagger
-api_router.include_router(login, prefix='/login', tags=['login'])
+api_router.include_router(login, prefix='/1login', tags=['1login'])
 
 # Inclui rotas protegidas relacionadas à criação de receitas (necessitam autenticação).
 # - prefix: caminho base (/receita_auth)
 # - tags: separa endpoints que exigem token JWT
-api_router.include_router(receita_auth, prefix='/receita_auth', tags=['receita_auth'])
+api_router.include_router(receita_auth, prefix='/1receita_auth', tags=['1receita_auth'])
 
 # Inclui rotas CRUD (Create, Read, Update, Delete) para receitas.
 # - prefix: caminho base (/receita)
 # - tags: agrupa endpoints de manipulação de receitas
-api_router.include_router(receita, prefix='/receita', tags=['receita'])
+api_router.include_router(receita, prefix='/1receita', tags=['1receita'])
 # Inclui rotas para upload e remoção de fotos associadas às receitas.
 # - prefix: caminho base (/foto)
 # - tags: organiza endpoints de fotos
-api_router.include_router(foto, prefix='/foto', tags=['foto'])
+api_router.include_router(foto, prefix='/1foto', tags=['1foto'])

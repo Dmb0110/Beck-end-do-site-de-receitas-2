@@ -10,7 +10,7 @@ router = APIRouter()
 @router.post(
     "/login",
     summary="Cria login para o usuário e gera token JWT",
-    status_code=status.HTTP_201_CREATED
+    status_code=status.HTTP_200_OK
 )
 async def login(
     request: LoginRequest,
