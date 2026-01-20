@@ -1,3 +1,6 @@
+
+
+'''
 from typing import Optional
 from pydantic import BaseModel, constr
 
@@ -36,3 +39,4 @@ class Atualizar(BaseModel):
 # Modelo para resposta de exclusão
 class Deletar(BaseModel):
     mensagem: bool
+'''
