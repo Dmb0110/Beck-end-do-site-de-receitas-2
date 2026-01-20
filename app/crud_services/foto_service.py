@@ -10,9 +10,17 @@ from pathlib import Path
 class FotoService:
     def __init__(self, db: Session):
         self.db = db
+        # Pasta uploads dentro da pasta app
+        self.uploads_dir = Path(__file__).resolve().parent.parent / "uploads"
+        self.uploads_dir.mkdir(exist_ok=True)
+
+
+        '''
+        self.db = db
         # Criar pasta uploads se não existir
         self.uploads_dir = Path(__file__).parent.parent.parent / "uploads"
         self.uploads_dir.mkdir(exist_ok=True)
+        '''
 
     def adicionar_foto(self, receita_id: int, nome_arquivo: str, conteudo_arquivo: bytes) -> ReceitaOut | None:
         """
