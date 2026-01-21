@@ -50,8 +50,16 @@ Thumbs.db
 .coverage
 htmlcov/
 
+
+# Uploads (ignora todos os arquivos dentro da pasta)
+uploads/*
+
+# Mas permite o arquivo .gitkeep
+!uploads/.gitkeep
+
+
 # Uploads (arquivo de exemplo)
-uploads/
+#uploads/
 
 # SQLite local
 *.db
