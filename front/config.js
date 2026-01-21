@@ -17,11 +17,11 @@ const CONFIG = {
     API_ENDPOINTS: {
         RECEITAS: '/1receita/receber',
         RECEITA_ESPECIFICA: '/1receita/especifico',
-        CRIAR_RECEITA: '/1receita_auth/criar',
+        CRIAR_RECEITA: '/1receita_auth/enviar',
         UPLOAD_FOTO: '/1foto/enviar',
         DELETAR_FOTO: '/1foto/deletar',
         OBTER_FOTO: '/1foto/receber',
-        REGISTRAR: '/1registro/registrar',
+        REGISTRAR: '/1registro/registro',
         LOGIN: '/1login/login',
     }
 };
