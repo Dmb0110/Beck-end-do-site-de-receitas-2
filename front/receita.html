@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da Receita - Masterchef</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .voltar-btn {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .voltar-btn:hover {
+            background: #f0f0f0;
+            transform: translateX(-5px);
+        }
+
+        .receita-detail {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .receita-foto-grande {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            color: white;
+            font-size: 1.2em;
+        }
+
+        .receita-foto-grande img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .receita-content {
+            padding: 40px;
+        }
+
+        .receita-nome {
+            font-size: 2.2em;
+            color: #333;
+            margin-bottom: 30px;
+            word-break: break-word;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .section-content {
+            color: #555;
+            line-height: 1.8;
+            font-size: 1.05em;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 1.2em;
+            padding: 60px 20px;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #ff6b6b;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .receita-foto-grande {
+                height: 250px;
+            }
+
+            .receita-content {
+                padding: 20px;
+            }
+
+            .receita-nome {
+                font-size: 1.6em;
+            }
+
+            .section-title {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script src="config.js"></script>
+    
+    <div class="container">
+        <button class="voltar-btn" onclick="voltarParaHome()">← Voltar</button>
+
+        <div id="erro" class="error" style="display: none;"></div>
+
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Carregando receita...</p>
+        </div>
+
+        <div id="receita-container" style="display: none;"></div>
+    </div>
+
+    <script>
+        // Usar configuração centralizada
+        const API_URL = getApiUrl('RECEITA_ESPECIFICA');
+
+        async function carregarReceita() {
+            try {
+                const receitaId = localStorage.getItem('receitaId');
+                const nomeDaReceita = localStorage.getItem('nomeDaReceita');
+
+                if (!receitaId) {
+                    throw new Error('ID da receita não encontrado no localStorage');
+                }
+
+                const loading = document.getElementById('loading');
+                const container = document.getElementById('receita-container');
+                const erroDiv = document.getElementById('erro');
+
+                loading.style.display = 'block';
+                erroDiv.style.display = 'none';
+
+                console.log('🔄 Carregando receita ID:', receitaId);
+
+                const url = `${API_URL}/${receitaId}`;
+                console.log('📍 URL:', url);
+
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    mode: 'cors',
+                    credentials: 'omit'
+                });
+
+                console.log('📊 Response status:', response.status);
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Status ${response.status}: ${errorText || response.statusText}`);
+                }
+
+                const receita = await response.json();
+                console.log('✅ Receita carregada:', receita);
+
+                loading.style.display = 'none';
+
+                let fotoHTML = `<span>📷 Sem foto</span>`;
+                if (receita.foto) {
+                    console.log(`📸 Foto recebida:`, receita.foto);
+                    // Construir a URL da foto
+                    let fotoSrc;
+                    if (receita.foto.startsWith('data:')) {
+                        // Se for base64
+                        fotoSrc = receita.foto;
+                    } else if (receita.foto.startsWith('http')) {
+                        // Se for URL completa
+                        fotoSrc = receita.foto;
+                    } else {
+                        // Se for apenas o nome do arquivo, servir do uploads
+                        fotoSrc = `/uploads/${receita.foto}`;
+                    }
+                    fotoHTML = `<img src="${fotoSrc}" alt="${receita.nome_da_receita}" onerror="this.parentElement.innerHTML='<span>🖼️ Foto indisponível</span>'">`;
+                } else {
+                    console.log(`📸 Nenhuma foto nesta receita`);
+                }
+
+                container.innerHTML = `
+                    <div class="receita-detail">
+                        <div class="receita-foto-grande">
+                            ${fotoHTML}
+                        </div>
+                        <div class="receita-content">
+                            <h1 class="receita-nome">${receita.nome_da_receita}</h1>
+
+                            <div class="section">
+                                <h2 class="section-title">🥘 Ingredientes</h2>
+                                <div class="section-content">${receita.ingredientes}</div>
+                            </div>
+
+                            <div class="section">
+                                <h2 class="section-title">👨‍🍳 Modo de Preparo</h2>
+                                <div class="section-content">${receita.modo_de_preparo}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                container.style.display = 'block';
+
+            } catch (error) {
+                console.error('❌ Erro ao carregar receita:', error);
+                const loading = document.getElementById('loading');
+                const erroDiv = document.getElementById('erro');
+
+                loading.style.display = 'none';
+                erroDiv.style.display = 'block';
+                
+                let mensagemErro = `❌ Erro ao carregar receita:\n\n${error.message}`;
+                
+                if (error.message.includes('Failed to fetch')) {
+                    mensagemErro += '\n\n⚠️ A API não está respondendo. Verifique:';
+                    mensagemErro += '\n✓ Se o servidor está rodando em http://localhost:8000';
+                    mensagemErro += '\n✓ Se há problemas de rede/firewall';
+                }
+                
+                erroDiv.textContent = mensagemErro;
+                erroDiv.style.whiteSpace = 'pre-wrap';
+            }
+        }
+
+        function voltarParaHome() {
+            // Limpar localStorage
+            localStorage.removeItem('receitaId');
+            localStorage.removeItem('nomeDaReceita');
+
+            console.log('⏪ Voltando para home');
+            
+            // Redirecionar para home
+            window.location.href = 'index.html';
+        }
+
+        // Carregar receita quando a página abrir
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 Página de detalhes carregada');
+            carregarReceita();
+        });
+    </script>
+</body>
+</html>
