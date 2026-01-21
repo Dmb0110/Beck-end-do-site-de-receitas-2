@@ -1,4 +1,5 @@
 
+'''
 from fastapi import FastAPI
 from app.database.session import Base, engine
 from fastapi.middleware.cors import CORSMiddleware
@@ -52,11 +53,11 @@ if front_path.exists():
     app.mount("/", StaticFiles(directory=front_path, html=True), name="static")
 
 
-
-
-
-
 '''
+
+
+
+
 from fastapi import FastAPI
 from app.database.session import Base, engine
 from fastapi.middleware.cors import CORSMiddleware
@@ -110,9 +111,9 @@ if os.path.exists(uploads_path):
     app.mount("/uploads", StaticFiles(directory=uploads_path), name="uploads")
 
 # Servir arquivos estáticos do frontend (deve ser o último mount)
-front_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "front7")
+front_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "front")
 if os.path.exists(front_path):
     app.mount("/", StaticFiles(directory=front_path, html=True), name="static")
-'''
+
     
 
