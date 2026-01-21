@@ -1,16 +1,16 @@
 from typing import Optional, List
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, constr
 import base64
 
 # Modelo para requisição de login
 class LoginRequest(BaseModel):
-    username: str = Field(...,min_length=3,max_length=50)
-    password: str = Field(..., min_length=2)
+    username: str = Field(...,min_length=3,max_length=72)
+    password: str = Field(..., min_length=3)
 
 # Modelo para requisição de registro de usuário
 class RegisterRequest(BaseModel):
     username: str
-    password: str
+    password: constr(min_length=3, max_length=72)
 
 # Modelo para criação de uma nova receita
 class CriarReceita(BaseModel):
