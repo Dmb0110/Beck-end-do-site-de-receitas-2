@@ -16,7 +16,12 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30  # Tempo de expiração do token em minutos
 
 # Contexto de hashing de senhas usando bcrypt. O 'deprecated="auto"' garante
 # compatibilidade com versões antigas de hash.
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+# Usando Argon2 como algoritmo principal
+pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
+
+
+#pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # Middleware de segurança para extrair credenciais do header Authorization.
 security = HTTPBearer()
