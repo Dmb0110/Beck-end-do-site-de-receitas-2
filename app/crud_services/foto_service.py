@@ -11,7 +11,8 @@ class FotoService:
     def __init__(self, db: Session):
         self.db = db
         # Pasta uploads dentro da pasta app
-        self.uploads_dir = Path(__file__).resolve().parent.parent / "uploads"
+        self.uploads_dir = Path(__file__).resolve().parent.parent.parent / "uploads"
+        #self.uploads_dir = Path(__file__).resolve().parent.parent / "uploads"
         self.uploads_dir.mkdir(exist_ok=True)
 
 
