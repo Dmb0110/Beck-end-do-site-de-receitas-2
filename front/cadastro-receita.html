@@ -291,18 +291,18 @@
             <div id="sucesso" class="success"></div>
 
             <div class="tabs">
-                <button class="tab-btn active" onclick="mudarAba('nova-receita')">➕ Nova Receita</button>
-                <button class="tab-btn" onclick="mudarAba('upload-foto')">📸 Upload de Foto</button>
+                <button class="tab-btn active" onclick="mudarAba('nova-receita', event)">➕ Nova Receita</button>
+                <button class="tab-btn" onclick="mudarAba('upload-foto', event)">📸 Upload de Foto</button>
             </div>
 
             <!-- ABA 1: CADASTRAR NOVA RECEITA -->
             <div id="nova-receita" class="tab-content active">
                 <form id="cadastro-form" onsubmit="handleCadastroReceita(event)">
                     <div class="form-group">
-                        <label for="nome-receita">Nome da Receita:</label>
+                        <label for="nome-da-receita">Nome da Receita:</label>
                         <input 
                             type="text" 
-                            id="nome-receita" 
+                            id="nome-da-receita" 
                             placeholder="Ex: Bolo de Chocolate"
                             required
                         >
@@ -318,9 +318,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="modo-preparo">Modo de Preparo:</label>
+                        <label for="modo-de-preparo">Modo de Preparo:</label>
                         <textarea 
-                            id="modo-preparo" 
+                            id="modo-de-preparo" 
                             placeholder="Descreva o passo a passo da receita"
                             required
                         ></textarea>
@@ -384,7 +384,7 @@
         const API_FOTO = getApiUrl('UPLOAD_FOTO');
 
         // Mudar abas
-        function mudarAba(abaId) {
+        function mudarAba(abaId, event) {
             // Remover classe active de todos os tabs
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
@@ -407,9 +407,9 @@
         async function handleCadastroReceita(event) {
             event.preventDefault();
 
-            const nome = document.getElementById('nome-receita').value;
+            const nome = document.getElementById('nome-da-receita').value;
             const ingredientes = document.getElementById('ingredientes').value;
-            const modoPreparo = document.getElementById('modo-preparo').value;
+            const modoPreparo = document.getElementById('modo-de-preparo').value;
 
             try {
                 const loading = document.getElementById('loading-cadastro');
@@ -417,15 +417,22 @@
 
                 console.log('📝 Cadastrando nova receita...');
 
+                const token = localStorage.getItem('access_token');
+
                 const response = await fetch(API_CRIAR_RECEITA, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify({
-                        nome_da_receita: nome,
+                        titulo: nome,
+                        //descricao: 'Receita cadastrada pelo front',
                         ingredientes: ingredientes,
-                        modo_de_preparo: modoPreparo
+                        preparo: modoPreparo
+                        //nome_da_receita: nome,
+                        //ingredientes: ingredientes,
+                        //modo_de_preparo: modoPreparo
                     })
                 });
 
