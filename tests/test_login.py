@@ -11,18 +11,18 @@ pytest -s -v tests/test_login.py
 
 def test_login_usuario():
     # Primeiro registra o usuário
-    usuario = {"username": "admin15", "password": "1234"}
-    client.post("/registro/registro", json=usuario)
+    usuario = {"username": "dodi3", "password": "1234"}
+    client.post("/1registro/registro", json=usuario)
 
     # Agora faz login (JSON, porque a rota usa LoginUsuario)
-    response = client.post("/login/login", json=usuario)
+    response = client.post("/1login/login", json=usuario)
     '''
     {
-        "username": "admin15",
+        "username": "dodi3",
         "password": "1234"
     })
     '''
-    assert response.status_code == 201
+    assert response.status_code == 200
     data = response.json()
     assert "access_token" in data
 

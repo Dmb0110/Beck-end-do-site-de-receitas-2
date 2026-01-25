@@ -12,11 +12,11 @@ pytest -s -v tests/test_post_auth_receita.py
 @pytest.fixture
 def token_valido():
     # Registra um usuário
-    usuario = {"username": "admin15", "password": "1234"}
-    client.post("/registro/registro", json=usuario)
+    usuario = {"username": "dodi1", "password": "1234"}
+    client.post("/1registro/registro", json=usuario)
 
     # Faz login e pega o token
-    response = client.post("/login/login", json=usuario)
+    response = client.post("/1login/login", json=usuario)
     data = response.json()
     return data["access_token"]
 
@@ -27,7 +27,7 @@ def test_criar_auth(token_valido):
     "modo_de_preparo":"Receita"
     }
     response = client.post(
-        "/receita_auth/enviar",  # rota de criação de cliente
+        "/1receita_auth/enviar",  # rota de criação de cliente
         json=nova_receita,
         headers={"Authorization": f"Bearer {token_valido}"}
     )

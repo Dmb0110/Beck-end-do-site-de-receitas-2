@@ -10,8 +10,6 @@ pytest tests/test_crud.py
 
 pytest -s -v tests/test_crud_receita.py
 
-pytest
-
 '''
 
 '''
@@ -21,7 +19,7 @@ s
 # Teste POST (criar recurso)
 def test_criar_receita():
     nova_receita = {"nome_da_receita": "string", "ingredientes": "string","modo_de_preparo":"string"}
-    response = client.post('/receita_auth/enviar', json=nova_receita)
+    response = client.post('/1receita_auth/enviar', json=nova_receita)
     assert response.status_code == 201
     data = response.json()
     assert data["nome_da_receita"] == "string"
@@ -33,7 +31,7 @@ def test_criar_receita():
 
 # Teste GET (listar recurso)
 def test_listar_receitas():
-    response = client.get("/receita/receber")
+    response = client.get("/1receita/receber")
     assert response.status_code == 200
     data = response.json()
     assert isinstance(data, list)
@@ -42,7 +40,7 @@ def test_listar_receitas():
 '''
 # Teste GET (listar todos e imprimir todos)
 def test_get():
-    response = client.get("/receita/receber")
+    response = client.get("/1receita/receber")
     assert response.status_code == 200
     data = response.json()
     assert isinstance(data,list)
@@ -58,7 +56,7 @@ def test_atualizar_receita():
     "ingredientes": "String",
     "modo_de_preparo":"String"
     }
-    response = client.put("/receita/trocar/39", json=receita_atualizada)
+    response = client.put("/1receita/trocar/39", json=receita_atualizada)
     assert response.status_code == 200
     data = response.json()
     assert data["nome_da_receita"] == "Receita"
@@ -69,7 +67,7 @@ def test_atualizar_receita():
 
 # Teste DELETE (remover recurso)
 def test_deletar_receita():
-    response = client.delete("/receita/deletar/39")
+    response = client.delete("/1receita/deletar/39")
     assert response.status_code == 200
     data = response.json()
     #assert data["mensagem"] == "RECEITA DELETADA COM SUCESSO"
